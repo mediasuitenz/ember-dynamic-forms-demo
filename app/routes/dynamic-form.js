@@ -1,5 +1,5 @@
 import Ember from 'ember'
-import form from 'ember-dynamic-forms-demo/temp-fixtures/basic-form'
+import form from 'ember-dynamic-forms-demo/temp-fixtures/applicant-details'
 
 export default Ember.Route.extend({
   model () {
@@ -18,3 +18,8 @@ export default Ember.Route.extend({
     }
   }
 })
+
+/**
+ * State will need to store Ids so we know what is an update and what is new
+ *
+ */

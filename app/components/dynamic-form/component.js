@@ -1,13 +1,16 @@
 import Ember from 'ember'
-import { buildState } from 'ember-dynamic-forms-demo/utils/dynamic-forms-utils'
-
-const { set, get, copy } = Ember
+const { set, get, copy, inject } = Ember
 
 export default Ember.Component.extend({
+  populateFunctions: inject.service(),
+
   // Want to populate the initial state with any missing items.  Might not be necessary if the server does this for us,
   // but no bad thing to have
   didReceiveAttrs () {
-    set(this, 'form.state', buildState(get(this, 'form.state'), get(this, 'form.components')))
+    get(this, 'populateFunctions').buildState(get(this, 'form.state'), get(this, 'form.components'))
+      .then(state => {
+        set(this, 'form.state', state)
+      })
   },
 
   actions: {
@@ -22,6 +25,11 @@ export default Ember.Component.extend({
       }
       set(this, 'form.state', state)
     }
+  },
+
+  save () {
+    // todo: need to clear up any invalid state that has been accumulated over the form entry before sending back to
+    // the server
   }
 })
 

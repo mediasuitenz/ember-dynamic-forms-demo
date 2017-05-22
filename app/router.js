@@ -7,7 +7,10 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('dynamic-form', {path: '/'})
+  this.route('index', {path: '/'})
+  this.route('dynamic-form', {path: '/general'})
+
+  this.route('applicant-details')
 });
 
 export default Router;

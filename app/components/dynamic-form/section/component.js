@@ -1,9 +1,10 @@
 import Ember from 'ember'
 import DynamicComponent from 'ember-dynamic-forms-demo/mixins/components/dynamic-component'
-import { buildState } from 'ember-dynamic-forms-demo/utils/dynamic-forms-utils'
-const { get, set, copy } = Ember
+// import { buildStateAsync } from 'ember-dynamic-forms-demo/utils/dynamic-forms-utils'
+const { get, set, copy, inject } = Ember
 
 export default Ember.Component.extend(DynamicComponent, {
+  populateFunctions: inject.service(),
 
   conditionalSetValues () {
     // Note, for sections, the values are not used as anything other than an array to help render the right amount of
@@ -34,8 +35,11 @@ export default Ember.Component.extend(DynamicComponent, {
     },
 
     add () {
-      const nullState = buildState({}, get(this, 'component.components'))
-      get(this, 'updateState')(get(this, 'component'), nullState, get(this, 'values.length'))
+      const existingCount = get(this, `state.${get(this, 'component.name')}.length`)
+      get(this, 'populateFunctions').buildState({}, get(this, 'component.components'), existingCount + 1)
+        .then(state => {
+          get(this, 'updateState')(get(this, 'component'), state, get(this, 'values.length'))
+        })
     }
   }
 })

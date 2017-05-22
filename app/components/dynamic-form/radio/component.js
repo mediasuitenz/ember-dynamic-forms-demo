@@ -8,7 +8,9 @@ export default Ember.Component.extend(DynamicComponent, {
   // get away with just setting on init
 
   conditionalSetValues () {
-    if (get(this, 'state') == null) return set(this, 'values', [])
+    if (get(this, 'state') == null || get(this, `state.${get(this, 'component.name')}`) == null){
+      return set(this, 'values', [])
+    }
 
     set(this, 'values', get(this, `state.${get(this, 'component.name')}`).map(val => {
       return get(this, 'component.options').find(option => option.value === val)
