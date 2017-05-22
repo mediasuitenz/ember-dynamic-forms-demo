@@ -13,7 +13,6 @@ repeat functionality, conditional display logic and determining defaults
 * Each component must manage this update and redraw without breaking the Ember run loop (more difficult that it sounds)
 
 ## Next Tasks
-* Complete the Property Details config
 * Switch 'component' to 'element' within the config and code to avoid confusion with Ember Components
 * How we update existing elements (e.g. include IDs on the State)
 * Clean up the state before Save to ensure that any values that are no longer valid (e.g. the element in which data was
