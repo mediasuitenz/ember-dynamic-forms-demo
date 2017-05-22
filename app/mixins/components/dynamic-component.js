@@ -19,6 +19,11 @@ export default Ember.Mixin.create({
     const keys = Object.keys(state)
     return conditions.every(condition => {
       const target = keys.find(key => key === condition.name)
+
+      // The target condition is not yet in the state.  Because of the progress way the state is built, this is
+      // legitimate, but we don't want an error thrown
+      if (!target) return false;
+
       // Purposeful non-strict compare so we don't fall foul of "string or number" type issues
       // Also, note that we only use the first element.  Not sure yet how we would handle a condition with repeated elements
       return (state[target][0] == condition.value) // eslint-disable-line eqeqeq

@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('dynamic-form', {path: '/general'})
 
   this.route('applicant-details')
+  this.route('property-details')
 });
 
 export default Router;
