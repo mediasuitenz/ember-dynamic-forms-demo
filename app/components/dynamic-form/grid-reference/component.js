@@ -15,3 +15,7 @@ export default Ember.Component.extend(DynamicComponent, {
 
 })
 
+// Each component is responsible for
+// - Deciding whether it should be rendered or not based on conditions
+// - Providing the right data to be updated on change
+// - Rendering multiple versions when repeatable

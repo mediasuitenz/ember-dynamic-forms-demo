@@ -1,52 +1,24 @@
-# ember-dynamic-forms-demo
+# Ember Formerly
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This repo represents a detailed investigation into building dynamic forms using Ember.js.
 
-## Prerequisites
+## Overview
+* Each form is represented by a configuration object that describes the elements it is to draw, and the current state
+of the application.
 
-You will need the following things properly installed on your computer.
+## Element Rules
+* Each element has it's own Ember Component.  Each Component knows how to draw the element, including applying any
+repeat functionality, conditional display logic and determining defaults
+* Each component must update the form state by calling `updateState` closure action.
+* Each component must manage this update and redraw without breaking the Ember run loop (more difficult that it sounds)
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
-* [Bower](https://bower.io/)
-* [Ember CLI](https://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
+## Next Tasks
+* Switch 'component' to 'element' within the config and code to avoid confusion with Ember Components
+* How we update existing elements (e.g. include IDs on the State)
+* Clean up the state before Save to ensure that any values that are no longer valid (e.g. the element in which data was
+entered has subsequently been hidden, and so the data needs deleting before sending to the server)
+* Display server validation errors back on to the client
+* Side-bar text (e.g. https://wireframepro.mockflow.com/view/Resource_Consent_Application#/page/D9541d0dbdbab515b00f4dadbb93131b6
+"Describe the site, including:" section)
 
-## Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-dynamic-forms-demo`
-* `npm install`
-* `bower install`
-
-## Running / Development
-
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](http://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)

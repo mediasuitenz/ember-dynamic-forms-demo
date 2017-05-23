@@ -1,0 +1,28 @@
+{{#if display}}
+  {{#if component.help}}
+    <div>{{component.help}}</div>
+  {{/if}}
+  <div>{{component.label}}</div>
+  {{#each values as |value index|}}
+      E:
+      {{dynamic-form/grid-reference/text-field
+        component=component
+        state=state
+        index=index
+        isEasting=true
+        updateState=updateState
+      }}
+      N:
+      {{dynamic-form/grid-reference/text-field
+        component=component
+        state=state
+        index=index
+        isEasting=false
+        updateState=updateState
+      }}
+    {{/each}}
+    {{#if component.repeatable}}
+      <button {{action 'add'}}>Add</button>
+    {{/if}}
+{{/if}}
+{{log state}}

@@ -1,0 +1,15 @@
+{{#if display}}
+  {{#if component.help}}
+    <div>{{component.help}}</div>
+  {{/if}}
+  {{#each values as |value index|}}
+    {{mediasuite-check-box
+      checked=value
+      label=component.label
+      update=(action 'updateState' index)
+    }}
+  {{/each}}
+  {{#if component.repeatable}}
+    <button {{action 'add'}}>Add</button>
+  {{/if}}
+{{/if}}
