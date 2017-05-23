@@ -1,8 +1,8 @@
 import Ember from 'ember'
 const { get } = Ember
 
-export function getSubstate ([state, component, index]) {
-  const wholeComponentState = get(state, component.name)
+export function getSubstate ([state, formElement, index]) {
+  const wholeComponentState = get(state, formElement.name)
   return wholeComponentState.objectAt(index)
 }
 

@@ -6,42 +6,42 @@ export default Ember.Service.extend({
   user: inject.service(),
   populateFunctions: inject.service(),
 
-  buildState (initialState, components, elementCount) {
+  buildState (initialState, formElements, formElementCount) {
     initialState = initialState || {}
-    elementCount = elementCount || 1
+    formElementCount = formElementCount || 1
     return new RSVP.Promise((resolve) => {
-      // Loop through each component and make sure we have state
-      reduce(components, {}, (tempState, component, callback) => {
-        // If the element doesn't have a name, then it is an information element and does not need state
-        if (!component.name) return callback(null, tempState)
+      // Loop through each formElement and make sure we have state
+      reduce(formElements, {}, (tempState, formElement, callback) => {
+        // If the formElement doesn't have a name, then it is an information formElement and does not need state
+        if (!formElement.name) return callback(null, tempState)
 
-        if (!component.components) {
+        if (!formElement.formElements) {
           // Populate by a population function if it exists, and the state is not already set
-          if (get(component, 'default.func') && !initialState[component.name]) {
+          if (get(formElement, 'default.func') && !initialState[formElement.name]) {
             // Need to determine if this is the correct time to call the default function
-            const runOnFirstOnlyAndIsFirst = component.default.execute === 'first-only' && elementCount === 1
-            const runAlways = component.default.execute == null || component.default.execute === 'all'
+            const runOnFirstOnlyAndIsFirst = formElement.default.execute === 'first-only' && formElementCount === 1
+            const runAlways = formElement.default.execute == null || formElement.default.execute === 'all'
 
             if (runOnFirstOnlyAndIsFirst || runAlways) {
-              get(this, 'populateFunctions')[get(component, 'default.func')](component.default.arguments)
+              get(this, 'populateFunctions')[get(formElement, 'default.func')](formElement.default.arguments)
                 .then(value => {
-                  tempState[component.name] = value
+                  tempState[formElement.name] = value
                   callback(null, tempState)
                 })
             } else {
               // todo: oh my, tidy this code up
-              tempState[component.name] = initialState[component.name] || get(component, 'default.val') || [null]
+              tempState[formElement.name] = initialState[formElement.name] || get(formElement, 'default.val') || [null]
               callback(null, tempState)
             }
           } else {
-            tempState[component.name] = initialState[component.name] || get(component, 'default.val') || [null]
+            tempState[formElement.name] = initialState[formElement.name] || get(formElement, 'default.val') || [null]
             callback(null, tempState)
           }
         } else {
           // Holy Recursing, Batman!
-          this.buildState(initialState[component.name], component.components, elementCount)
+          this.buildState(initialState[formElement.name], formElement.formElements, formElementCount)
             .then(state => {
-              tempState[component.name] = [state]
+              tempState[formElement.name] = [state]
               callback(null, tempState)
             })
         }

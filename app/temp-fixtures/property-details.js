@@ -3,7 +3,7 @@ export default {
   'formTemplate': {
     // Ignore for now
   },
-  'components': [
+  'formElements': [
     {
       'type': 'information',
       'markup': '<h2>Property Details</h2>'
@@ -11,7 +11,7 @@ export default {
     {
       'name': 'siteWrapper',
       'type': 'section',
-      'components': [
+      'formElements': [
         {
           'type': 'information',
           'markup': '<p>The site at which the proposed activity is due to occur</p>'
@@ -37,7 +37,7 @@ export default {
       'name': 'locale',
       'type': 'section',
       'conditions': [{ name: 'enterLocale', value: true }],
-      'components': [
+      'formElements': [
         {
           'type': 'information',
           'markup': '<h3>Locale</h3>'
@@ -76,7 +76,7 @@ export default {
     {
       'name': 'ownersAndOccupiers',
       'type': 'section',
-      'components': [
+      'formElements': [
         {
           'type': 'information',
           'markup': '<h3>Owners and Occupiers</h3>'
@@ -95,7 +95,7 @@ export default {
           'type': 'section',
           'repeatable': true,
           'conditions': [{name: 'soleOccupier', value: false}],
-          'components': [
+          'formElements': [
             {
               'name': 'ownerOrOccupier',
               'label': 'Are the below:',
@@ -123,7 +123,7 @@ export default {
               'conditions': [{
                 'name': 'ownerOccupierType', 'value': 1
               }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'firstName',
                   'label': 'First name(s)',
@@ -141,7 +141,7 @@ export default {
               'name': 'company',
               'type': 'section',
               'conditions': [{ 'name': 'ownerOccupierType', 'value': 2 }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'companyName',
                   'label': 'Company Name',
@@ -159,7 +159,7 @@ export default {
               'name': 'trust',
               'type': 'section',
               'conditions': [{ 'name': 'ownerOccupierType', 'value': 3 }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'trustName',
                   'label': 'Trust Name',

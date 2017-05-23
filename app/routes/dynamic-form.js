@@ -1,5 +1,5 @@
 import Ember from 'ember'
-import form from 'ember-dynamic-forms-demo/temp-fixtures/applicant-details'
+import form from 'ember-dynamic-forms-demo/temp-fixtures/basic-form'
 
 export default Ember.Route.extend({
   model () {

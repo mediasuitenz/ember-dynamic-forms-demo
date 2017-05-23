@@ -1,16 +1,16 @@
 {{#if display}}
-  {{#if component.help}}
-    <div>{{component.help}}</div>
+  {{#if formElement.help}}
+    <div>{{formElement.help}}</div>
   {{/if}}
   {{#each values as |value index|}}
       {{dynamic-form/text/text-field
-          component=component
+          formElement=formElement
           state=state
           index=index
           updateState=updateState
         }}
     {{/each}}
-    {{#if component.repeatable}}
+    {{#if formElement.repeatable}}
       <button {{action 'add'}}>Add</button>
     {{/if}}
 {{/if}}

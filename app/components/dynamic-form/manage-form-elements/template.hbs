@@ -1,0 +1,7 @@
+{{#each formElements as |formElement|}}
+  {{component (concat 'dynamic-form/' formElement.type)
+      formElement=formElement
+      state=state
+      updateState=updateState
+  }}
+{{/each}}

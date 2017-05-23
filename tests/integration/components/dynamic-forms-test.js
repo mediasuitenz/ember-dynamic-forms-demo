@@ -12,9 +12,9 @@ moduleForComponent('dynamic-form', 'Integration | Component | Dynamic Form', {
   integration: true
 });
 
-test('it renders a basic form with a basic information element', function(assert) {
+test('it renders a basic form with a basic information formElement', function(assert) {
   const form = {
-    components: [{
+    formElements: [{
       type: 'information',
       markup: '<h2>Example title</h2>'
     }]
@@ -25,13 +25,13 @@ test('it renders a basic form with a basic information element', function(assert
   assert.ok(this.$().html().includes('<h2>Example title</h2>'));
 });
 
-test('it renders a basic form with single level components', function(assert) {
+test('it renders a basic form with single level formElements', function(assert) {
   this.set('form', basicForm)
   this.render(hbs`{{dynamic-form form=form}}`);
   assert.ok(this.$().html().includes('Which area is affected'));
 });
 
-test('it can show a conditional element', function(assert) {
+test('it can show a conditional formElement', function(assert) {
   this.set('form', singleLevelConditionals)
   this.render(hbs`{{dynamic-form form=form}}`);
   assert.notOk(this.$().html().includes('Reference number'), '"Reference number" text is present when it should not be')
@@ -48,7 +48,7 @@ test('it can show a conditional element', function(assert) {
 
 });
 
-test('it can repeat a repeatable element', function(assert) {
+test('it can repeat a repeatable formElement', function(assert) {
   this.set('form', nestedComponents)
   this.render(hbs`{{dynamic-form form=form}}`);
   assert.equal(this.$('span:contains("Which area is affected?")').length, 1)

@@ -2,7 +2,7 @@ export default {
   'formTemplate': {
     // Ignore for now
   },
-  'components': [
+  'formElements': [
     {
       'name': 'targetOrg',
       'label': 'Application To',
@@ -66,7 +66,7 @@ export default {
       'name': 'applications',
       'type': 'section',
       'repeatable': true,
-      'components': [
+      'formElements': [
         {
           'name': 'applicantType',
           'label': 'Type',
@@ -83,7 +83,7 @@ export default {
           'conditions': [{
             'name': 'applicantType', 'value': 1
           }],
-          'components': [
+          'formElements': [
             {
               'name': 'firstName',
               'label': 'First name(s)',
@@ -101,7 +101,7 @@ export default {
           'name': 'company',
           'type': 'section',
           'conditions': [{'name': 'applicantType', 'value': 2}],
-          'components': [
+          'formElements': [
             {
               'name': 'companyName',
               'label': 'Company Name',
@@ -119,7 +119,7 @@ export default {
           'name': 'trust',
           'type': 'section',
           'conditions': [{'name': 'applicantType', 'value': 3}],
-          'components': [
+          'formElements': [
             {
               'name': 'trustName',
               'label': 'Trust Name',
