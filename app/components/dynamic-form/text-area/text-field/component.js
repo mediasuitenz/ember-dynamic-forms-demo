@@ -1,8 +1,8 @@
 import Ember from 'ember'
-import DynamicComponent from 'ember-dynamic-forms-demo/mixins/components/dynamic-component'
+import DynamicElement from 'ember-dynamic-forms-demo/mixins/components/dynamic-formElement'
 const { get, set } = Ember
 
-export default Ember.Component.extend(DynamicComponent, {
+export default Ember.Component.extend(DynamicElement, {
   value: null,
   init () {
     this._super(...arguments)
@@ -10,14 +10,14 @@ export default Ember.Component.extend(DynamicComponent, {
   },
 
   conditionalSetValues () {
-    const componentName = get(this, 'component.name')
-    const newVal = get(this, `state.${componentName}`).objectAt(get(this, 'index'))
+    const formElementName = get(this, 'formElement.name')
+    const newVal = get(this, `state.${formElementName}`).objectAt(get(this, 'index'))
     set(this, 'value', newVal)
   },
 
   actions: {
     updateState (index, value) {
-      get(this, 'updateState')(get(this, 'component'), value, index)
+      get(this, 'updateState')(get(this, 'formElement'), value, index)
     }
   }
 })

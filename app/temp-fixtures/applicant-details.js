@@ -3,7 +3,7 @@ export default {
   'formTemplate': {
     // Ignore for now
   },
-  'components': [
+  'formElements': [
     {
       'type': 'information',
       'markup': '<h2>Application for Resource Consent</h2><p>This is some text about resource consents'
@@ -21,7 +21,7 @@ export default {
     {
       'name': 'applicationWrapper',
       'type': 'section',
-      'components': [
+      'formElements': [
         {
           'type': 'information',
           'markup': '<h2>Application</h2>'
@@ -30,7 +30,7 @@ export default {
           'name': 'applications',
           'type': 'section',
           'repeatable': true,
-          components: [
+          formElements: [
             {
               'name': 'applicantTypeApplicant',
               'label': 'Type',
@@ -48,7 +48,7 @@ export default {
               'conditions': [{
                 'name': 'applicantTypeApplicant', 'value': 1
               }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'firstName',
                   'label': 'First name(s)',
@@ -74,7 +74,7 @@ export default {
               'name': 'company',
               'type': 'section',
               'conditions': [{ 'name': 'applicantTypeApplicant', 'value': 2 }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'companyName',
                   'label': 'Company Name',
@@ -92,7 +92,7 @@ export default {
               'name': 'trust',
               'type': 'section',
               'conditions': [{ 'name': 'applicantTypeApplicant', 'value': 3 }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'trustName',
                   'label': 'Trust Name',
@@ -114,7 +114,7 @@ export default {
       'name': 'agentWrapper',
       'type': 'section',
       'conditions': [{'name': 'agentOrApplicant', 'value': 2}],
-      'components': [
+      'formElements': [
         {
           'type': 'information',
           'markup': '<h2>Agent</h2>'
@@ -123,7 +123,7 @@ export default {
           'name': 'agents',
           'type': 'section',
           'repeatable': true,
-          'components': [
+          'formElements': [
             {
               'name': 'applicantTypeAgent',
               'label': 'Type',
@@ -140,7 +140,7 @@ export default {
               'conditions': [{
                 'name': 'applicantTypeAgent', 'value': 1
               }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'firstName',
                   'label': 'First name(s)',
@@ -158,7 +158,7 @@ export default {
               'name': 'company',
               'type': 'section',
               'conditions': [{ 'name': 'applicantTypeAgent', 'value': 2 }],
-              'components': [
+              'formElements': [
                 {
                   'name': 'companyName',
                   'label': 'Company Name',

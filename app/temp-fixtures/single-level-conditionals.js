@@ -2,7 +2,7 @@ export default {
   'formTemplate': {
     // Ignore for now
   },
-  'components': [
+  'formElements': [
     {
       'name': 'targetOrg',
       'label': 'Application To',
