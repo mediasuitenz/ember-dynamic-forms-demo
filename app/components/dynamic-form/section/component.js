@@ -1,20 +1,18 @@
 import Ember from 'ember'
 import DynamicElement from 'ember-dynamic-forms-demo/mixins/components/dynamic-formElement'
 // import { buildStateAsync } from 'ember-dynamic-forms-demo/utils/dynamic-forms-utils'
-const { get, set, copy, inject } = Ember
+const { get, set, inject, copy } = Ember
 
 export default Ember.Component.extend(DynamicElement, {
   populateFunctions: inject.service(),
 
-  conditionalSetValues () {
-    // Note, for sections, the values are not used as anything other than an array to help render the right amount of
-    // components
-    const formElementName = get(this, 'formElement.name')
-    const stateItem = get(this, `state.${formElementName}`)
+  updateDeletedHide(sectionIndex, formElement, index, key, status = true) {
+    // We take a copy here so that the state reference changes on set and forces observers throughout the app fire
+    const state = get(this, 'state')
+    state[formElement.name][index] = Object.assign({}, state[formElement.name][index], { [key]: status })
+    set(this, 'state', state)
 
-    if (!stateItem || stateItem.length !== get(this, 'values.length')) {
-      set(this, 'values', stateItem)
-    }
+    get(this, 'updateState')(get(this, 'formElement'), state, sectionIndex)
   },
 
   actions: {
@@ -40,6 +38,12 @@ export default Ember.Component.extend(DynamicElement, {
         .then(state => {
           get(this, 'updateState')(get(this, 'formElement'), state, get(this, 'values.length'))
         })
+    },
+
+    delete (sectionIndex, formElement, index) {
+      this.updateDeletedHide(sectionIndex, formElement, index, 'deleted')
     }
   }
+
+
 })

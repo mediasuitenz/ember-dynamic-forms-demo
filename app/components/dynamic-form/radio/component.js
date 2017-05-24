@@ -8,12 +8,7 @@ export default Ember.Component.extend(DynamicElement, {
   // get away with just setting on init
 
   conditionalSetValues () {
-    if (get(this, 'state') == null || get(this, `state.${get(this, 'formElement.name')}`) == null){
-      return set(this, 'values', [])
-    }
-
-    const componentState = get(this, `state.${get(this, 'formElement.name')}`) || [];
-    set(this, 'values', componentState.map(valueItem => {
+    set(this, 'values', get(this, 'formElementState').map(valueItem => {
       return get(this, 'formElement.options').find(option => option.value === valueItem.val)
     }))
   },

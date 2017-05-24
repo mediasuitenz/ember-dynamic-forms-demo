@@ -1,0 +1,11 @@
+{{#unless (or value.hidden value.deleted)}}
+  {{dynamic-form/manage-form-elements
+    formElements=formElement.formElements
+    state=subState
+    updateState=(action updateState)
+    delete=(action delete)
+  }}
+  {{#if showDeleteButton}}
+    <button {{action delete formElement index}}>Delete</button>
+  {{/if}}
+{{/unless}}

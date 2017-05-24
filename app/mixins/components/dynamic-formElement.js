@@ -1,13 +1,32 @@
 import Ember from 'ember'
 
-const { computed, get, observer } = Ember
+const { computed, get, set, observer, copy } = Ember
 
 export default Ember.Mixin.create({
+  // Some useful values
   values: [],
+  formElementState: computed('state', 'formElement', function () {
+    const formElementName = get(this, 'formElement.name')
+    return get(this, `state.${formElementName}`) || [];
+  }),
+  stateToDisplay: computed.filter('formElementState', (item) => !get(item, 'deleted') && !get(item, 'hidden') ),
+  totalNumber: computed.alias('formElementState.length'),
+  totalNumberDisplayed: computed.alias('stateToDisplay.length'),
+  showDeleteButton: computed.gt('totalNumberDisplayed', 1),
 
   init () {
     this._super()
     this.conditionalSetValues()
+  },
+
+  conditionalSetValues () {
+    const formElementName = get(this, 'formElement.name')
+    let stateItem = copy(get(this, `state.${formElementName}`)) || []
+    stateItem = stateItem.filter(item => !item.hidden && !item.deleted)
+
+    if (get(this, 'formElementState.length') !== get(this, 'values.length')) {
+      set(this, 'values', stateItem)
+    }
   },
 
   display: computed('state', 'formElement.{name,conditions}', function () {
@@ -41,7 +60,12 @@ export default Ember.Mixin.create({
       get(this, 'updateState')(get(this, 'formElement'), selectedItem.value, index)
     },
     add () {
-      get(this, 'updateState')(get(this, 'formElement'), null, get(this, 'values.length'))
+      const formElementName = get(this, 'formElement.name')
+      const values = get(this, `state.${formElementName}`) || []
+      get(this, 'updateState')(get(this, 'formElement'), null, values.length)
+    },
+    delete (index) {
+      get(this, 'delete')(get(this, 'formElement'), index)
     }
   }
 })

@@ -13,6 +13,14 @@ export default Ember.Component.extend({
       })
   },
 
+  updateDeletedHide(formElement, index, key, status = true) {
+    // We take a copy here so that the state reference changes on set and forces observers throughout the app fire
+    const state = copy(get(this, 'form.state'), true)
+    state[formElement.name][index] = Object.assign({}, state[formElement.name][index], { [key]: status })
+    set(this, 'form.state', state)
+
+  },
+
   actions: {
     updateState (formElement, value, index) {
       // We take a copy here so that the state reference changes on set and forces observers throughout the app fire
@@ -26,7 +34,18 @@ export default Ember.Component.extend({
         state[formElement.name] = [{val: value}]
       }
       set(this, 'form.state', state)
+    },
 
+    delete (formElement, index) {
+      this.updateDeletedHide(formElement, index, 'deleted')
+    },
+
+    hide (formElement, index) {
+      this.updateDeletedHide(formElement, index, 'hidden')
+    },
+
+    show (formElement, index) {
+      this.updateDeletedHide(formElement, index, 'hidden', false)
     }
   },
 
