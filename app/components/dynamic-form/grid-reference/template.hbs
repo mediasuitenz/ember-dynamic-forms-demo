@@ -4,6 +4,7 @@
   {{/if}}
   <div>{{formElement.label}}</div>
   {{#each values as |value index|}}
+    {{#unless (or value.hidden value.deleted)}}
       E:
       {{dynamic-form/grid-reference/text-field
         formElement=formElement
@@ -20,9 +21,13 @@
         isEasting=false
         updateState=updateState
       }}
-    {{/each}}
-    {{#if formElement.repeatable}}
-      <button {{action 'add'}}>Add</button>
-    {{/if}}
+      {{#if showDeleteButton}}
+        <button {{action 'delete' index}} class="delete">Delete</button>
+      {{/if}}
+    {{/unless}}
+  {{/each}}
+  {{#if formElement.repeatable}}
+    <button {{action 'add'}}>Add</button>
+  {{/if}}
 {{/if}}
 {{log state}}

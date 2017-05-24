@@ -7,11 +7,7 @@ export default Ember.Component.extend(DynamicElement, {
   // to a double render.  The control represents the new value, without the 'value' being kept in sync, so can
   // get away with just setting on init
   conditionalSetValues () {
-    // If we don't have state, don't crash
-    if (get(this, 'state') == null) return set(this, 'values', [])
-    const componentState = get(this, `state.${get(this, 'formElement.name')}`) || [];
-
-    set(this, 'values', componentState.map(valueItem => {
+    set(this, 'values', get(this, 'formElementState').map(valueItem => {
       return get(this, 'formElement.options').find(option => option.value === valueItem.val)
     }))
   },

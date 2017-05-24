@@ -45,6 +45,7 @@ export default {
             {
               'name': 'individual',
               'type': 'section',
+              'repeatable': true,
               'conditions': [{
                 'name': 'applicantTypeApplicant', 'value': 1
               }],
