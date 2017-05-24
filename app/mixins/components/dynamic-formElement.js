@@ -5,6 +5,7 @@ const { computed, get, set, observer, copy } = Ember
 export default Ember.Mixin.create({
   // Some useful values
   values: [],
+  currentDisplay: true,
   formElementState: computed('state', 'formElement', function () {
     const formElementName = get(this, 'formElement.name')
     return get(this, `state.${formElementName}`) || [];
@@ -36,9 +37,8 @@ export default Ember.Mixin.create({
 
     // todo: move to lodash at some point
     const keys = Object.keys(state)
-    return conditions.every(condition => {
+    const display = conditions.every(condition => {
       const target = keys.find(key => key === condition.name)
-
       // The target condition is not yet in the state.  Because of the progress way the state is built, this is
       // legitimate, but we don't want an error thrown
       if (!target) return false;
@@ -47,6 +47,14 @@ export default Ember.Mixin.create({
       // Also, note that we only use the first formElement.  Not sure yet how we would handle a condition with repeated formElements
       return (state[target][0]['val'] == condition.value) // eslint-disable-line eqeqeq
     })
+
+    // All elements are hidden or shown based on the conditions, not just individual items from
+    // the array
+    if (get(this, 'currentDisplay') !== display) {
+      get(this, 'formElementState').forEach(element => element.hidden = !display)
+    }
+    set(this, 'currentDisplay', display)
+    return display
   }),
 
   // Text formElements need the value to be updated as you type in order to update
