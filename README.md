@@ -13,11 +13,11 @@ repeat functionality, conditional display logic and determining defaults
 * Each component must manage this update and redraw without breaking the Ember run loop (more difficult that it sounds)
 
 ## Next Tasks
-* How we update existing formElements (e.g. include IDs on the State)
 * Clean up the state before Save to ensure that any values that are no longer valid (e.g. the formElement in which data was
 entered has subsequently been hidden, and so the data needs deleting before sending to the server)
 * Display server validation errors back on to the client
 * Side-bar text (e.g. https://wireframepro.mockflow.com/view/Resource_Consent_Application#/page/D9541d0dbdbab515b00f4dadbb93131b6
 "Describe the site, including:" section)
+* Don't pass a condition if the value is in a deleted state
 
 

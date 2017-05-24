@@ -15,15 +15,18 @@ export default Ember.Component.extend({
 
   actions: {
     updateState (formElement, value, index) {
+      // We take a copy here so that the state reference changes on set and forces observers throughout the app fire
       const state = copy(get(this, 'form.state'), true)
 
       if (state[formElement.name]) {
-        state[formElement.name][index] = value
+        // Update the current value object if there was one, preserving any other information in the object
+        state[formElement.name][index] = Object.assign({}, state[formElement.name][index], { val: value })
       } else {
         // The formElement is not in the state, so we need to add it
-        state[formElement.name] = [value]
+        state[formElement.name] = [{val: value}]
       }
       set(this, 'form.state', state)
+
     }
   },
 
@@ -37,3 +40,4 @@ export default Ember.Component.extend({
  * Text areas may need to include a unit (e.g. meters) after the input
  * Conditionally required
  */
+

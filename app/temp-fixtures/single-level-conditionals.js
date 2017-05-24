@@ -47,9 +47,6 @@ export default {
   ],
 
   'state': {
-    targetOrg: [4],
-    agentOrApplicant: [1],
-    councilRefAllocated: [false]
   }
 
 }

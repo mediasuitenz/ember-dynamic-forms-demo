@@ -138,13 +138,6 @@ export default {
   ],
 
   'state': {
-    targetOrg: [4],
-    agentOrApplicant: [1],
-    councilRefAllocated: [false],
-    affectedParties: ['Peter', 'Michael'],
-    affectedAreas: [null],
-    applications: [{
-      applicantType: [2]
-    }]
+
   }
 }

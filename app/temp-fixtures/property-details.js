@@ -100,7 +100,7 @@ export default {
               'name': 'ownerOrOccupier',
               'label': 'Are the below:',
               'type': 'radio',
-              'default': { val: [1] },
+              'default': { val: 1 },
               'options': [
                 { 'value': 'owner', 'label': 'Owner' },
                 { 'value': 'occupier', 'label': 'Occupier' }
@@ -110,7 +110,7 @@ export default {
               'name': 'ownerOccupierType',
               'label': 'Type',
               'type': 'radio',
-              'default': { val: [1] },
+              'default': { val: 1 },
               'options': [
                 { 'value': 1, 'label': 'Individual' },
                 { 'value': 2, 'label': 'Company' },

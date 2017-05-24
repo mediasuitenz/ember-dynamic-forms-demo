@@ -9,9 +9,9 @@ export default {
       'help': 'Select the target regional or district council which is appropriate',
       'type': 'select',
       'options': [
-        {'value': 1, 'label': 'Marlborough District Council'},
-        {'value': 4, 'label': 'Otago Regional Council'},
-        {'value': 5, 'label': 'Queenstown Lakes District Council'}
+        { 'value': 1, 'label': 'Marlborough District Council' },
+        { 'value': 4, 'label': 'Otago Regional Council' },
+        { 'value': 5, 'label': 'Queenstown Lakes District Council' }
       ],
       'repeatable': false
     },
@@ -19,9 +19,12 @@ export default {
       'name': 'agentOrApplicant',
       'label': 'Are you an...',
       'type': 'radio',
+      'default': {
+        'val': 1
+      },
       'options': [
-        {'value': 1, 'label': 'Applicant'},
-        {'value': 2, 'label': 'Agent'}
+        { 'value': 1, 'label': 'Applicant' },
+        { 'value': 2, 'label': 'Agent' }
       ],
       'repeatable': false
     },
@@ -30,8 +33,8 @@ export default {
       'label': 'Has a council reference been allocated?',
       'type': 'radio',
       'options': [
-        {'value': true, 'label': 'Yes'},
-        {'value': false, 'label': 'No'}
+        { 'value': true, 'label': 'Yes' },
+        { 'value': false, 'label': 'No' }
       ],
       'repeatable': false
     },
@@ -41,7 +44,7 @@ export default {
       'type': 'text',
       'repeatable': false,
       'conditions': [
-        {'name': 'councilRefAllocated', 'value': true}
+        { 'name': 'councilRefAllocated', 'value': true }
       ]
     },
     {
@@ -54,11 +57,14 @@ export default {
       'name': 'affectedAreas',
       'label': 'Which area is affected?',
       'type': 'radio',
+      'default': {
+        val: 1
+      },
       'options': [
-        {'value': 1, 'label': 'Coastal'},
-        {'value': 2, 'label': 'Forest'},
-        {'value': 3, 'label': 'Lakes'},
-        {'value': 4, 'label': 'Plains'}
+        { 'value': 1, 'label': 'Coastal' },
+        { 'value': 2, 'label': 'Forest' },
+        { 'value': 3, 'label': 'Lakes' },
+        { 'value': 4, 'label': 'Plains' }
       ],
       'repeatable': true
     },
@@ -72,9 +78,9 @@ export default {
           'label': 'Type',
           'type': 'radio',
           'options': [
-            {'value': 1, 'label': 'Individual'},
-            {'value': 2, 'label': 'Company'},
-            {'value': 3, 'label': 'Trust'}
+            { 'value': 1, 'label': 'Individual' },
+            { 'value': 2, 'label': 'Company' },
+            { 'value': 3, 'label': 'Trust' }
           ]
         },
         {
@@ -100,7 +106,7 @@ export default {
         {
           'name': 'company',
           'type': 'section',
-          'conditions': [{'name': 'applicantType', 'value': 2}],
+          'conditions': [{ 'name': 'applicantType', 'value': 2 }],
           'formElements': [
             {
               'name': 'companyName',
@@ -118,7 +124,7 @@ export default {
         {
           'name': 'trust',
           'type': 'section',
-          'conditions': [{'name': 'applicantType', 'value': 3}],
+          'conditions': [{ 'name': 'applicantType', 'value': 3 }],
           'formElements': [
             {
               'name': 'trustName',
@@ -138,21 +144,29 @@ export default {
   ],
 
   'state': {
-    targetOrg: [4],
-    agentOrApplicant: [1],
-    councilRefAllocated: [false],
-    affectedParties: ['Peter', 'Michael'],
-    affectedAreas: [null],
-    applications: [{
-      applicantType: [2]
-    }]
+    targetOrg: [
+      {
+        id: 1234,
+        val: 4
+      }
+    ],
+    agentOrApplicant: [
+      { val: 1 }
+    ],
+    councilRefAllocated: [
+      { val: false }
+    ],
+    affectedParties: [
+      { val: 'Peter' },
+      { val: 'Michael' }
+    ],
+    applications: [
+      {
+        val: {
+          applicantType: [{ val: 2 }]
+        },
+        deleted: true
+      }
+    ]
   }
-  // state: [
-  //   {'name': 'targetOrg', 'value': [4]},
-  //   {'name': 'agentOrApplicant', 'value': [1]},
-  //   {'name': 'councilRefAllocated', 'value': [false]},
-  //   {'name': 'refNumber', 'value': ['Abc1234']},
-  //   {'name': 'affectedParties', 'value': ['Peter', 'Michael']}
-  // ]
-  // ]
 }

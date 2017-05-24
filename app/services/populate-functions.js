@@ -25,23 +25,23 @@ export default Ember.Service.extend({
             if (runOnFirstOnlyAndIsFirst || runAlways) {
               get(this, 'populateFunctions')[get(formElement, 'default.func')](formElement.default.arguments)
                 .then(value => {
-                  tempState[formElement.name] = value
+                  tempState[formElement.name] = [{val: value}]
                   callback(null, tempState)
                 })
             } else {
               // todo: oh my, tidy this code up
-              tempState[formElement.name] = initialState[formElement.name] || get(formElement, 'default.val') || [null]
+              tempState[formElement.name] = initialState[formElement.name] || [{val: get(formElement, 'default.val')}] || [{ val: null }]
               callback(null, tempState)
             }
           } else {
-            tempState[formElement.name] = initialState[formElement.name] || get(formElement, 'default.val') || [null]
+            tempState[formElement.name] = initialState[formElement.name] || [{val: get(formElement, 'default.val')}] || [{ val: null }]
             callback(null, tempState)
           }
         } else {
           // Holy Recursing, Batman!
           this.buildState(initialState[formElement.name], formElement.formElements, formElementCount)
             .then(state => {
-              tempState[formElement.name] = [state]
+              tempState[formElement.name] = [{val: state}]
               callback(null, tempState)
             })
         }
@@ -53,13 +53,13 @@ export default Ember.Service.extend({
   },
 
   // Add populating functions here
-  // Note: all populating functions must return a common promise interface, with a value in an array
+  // Note: all populating functions must return a common promise interface
 
   getFirstName () {
-    return RSVP.Promise.resolve([get(this, 'user').getUserDetails().firstName])
+    return RSVP.Promise.resolve(get(this, 'user').getUserDetails().firstName)
   },
 
   getLastName () {
-    return RSVP.Promise.resolve([get(this, 'user').getUserDetails().surname])
+    return RSVP.Promise.resolve(get(this, 'user').getUserDetails().surname)
   }
 });

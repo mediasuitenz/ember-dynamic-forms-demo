@@ -9,9 +9,10 @@ export default Ember.Component.extend(DynamicElement, {
   conditionalSetValues () {
     // If we don't have state, don't crash
     if (get(this, 'state') == null) return set(this, 'values', [])
+    const componentState = get(this, `state.${get(this, 'formElement.name')}`) || [];
 
-    set(this, 'values', get(this, `state.${get(this, 'formElement.name')}`).map(val => {
-      return get(this, 'formElement.options').find(option => option.value === val)
+    set(this, 'values', componentState.map(valueItem => {
+      return get(this, 'formElement.options').find(option => option.value === valueItem.val)
     }))
   },
 

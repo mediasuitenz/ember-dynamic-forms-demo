@@ -11,7 +11,7 @@ export default Ember.Component.extend(DynamicElement, {
 
   conditionalSetValues () {
     const formElementName = get(this, 'formElement.name')
-    const eastingNorthing = get(this, `state.${formElementName}`).objectAt(get(this, 'index'))
+    const eastingNorthing = get(this, `state.${formElementName}`).objectAt(get(this, 'index')).val
     const isEasting = get(this, 'isEasting')
 
     // If no default or no value, the code that sets default state will assume this formElement has a scalar value and
@@ -27,7 +27,7 @@ export default Ember.Component.extend(DynamicElement, {
   actions: {
     updateState (index, value) {
       const formElementName = get(this, 'formElement.name')
-      let eastingNorthing = get(this, `state.${formElementName}`).objectAt(get(this, 'index'))
+      let eastingNorthing = get(this, `state.${formElementName}`).objectAt(get(this, 'index')).val
       const isEasting = get(this, 'isEasting')
 
       eastingNorthing = isEasting ? [value, eastingNorthing[1]] : [eastingNorthing[0], value]
