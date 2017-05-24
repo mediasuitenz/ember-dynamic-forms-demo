@@ -11,7 +11,8 @@ export default Ember.Component.extend(DynamicElement, {
 
   conditionalSetValues () {
     const formElementName = get(this, 'formElement.name')
-    const newVal = get(this, `state.${formElementName}`).objectAt(get(this, 'index'))
+    const componentState = get(this, `state.${formElementName}`) || [];
+    const newVal = componentState.objectAt(get(this, 'index')).val
     set(this, 'value', newVal)
   },
 

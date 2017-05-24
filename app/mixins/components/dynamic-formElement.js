@@ -26,7 +26,7 @@ export default Ember.Mixin.create({
 
       // Purposeful non-strict compare so we don't fall foul of "string or number" type issues
       // Also, note that we only use the first formElement.  Not sure yet how we would handle a condition with repeated formElements
-      return (state[target][0] == condition.value) // eslint-disable-line eqeqeq
+      return (state[target][0]['val'] == condition.value) // eslint-disable-line eqeqeq
     })
   }),
 

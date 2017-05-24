@@ -21,13 +21,13 @@ export default Ember.Component.extend(DynamicElement, {
     updateState (sectionIndex, formElement, value, index) {
       // Update the 'value' for this formElement.
       const sectionComponentName = get(this, 'formElement.name')
-      const state = copy(get(this, `state.${sectionComponentName}`).objectAt(sectionIndex), true)
+      const state = copy(get(this, `state.${sectionComponentName}`).objectAt(sectionIndex).val, true)
 
       if (state[formElement.name]) {
-        state[formElement.name][index] = value
+        state[formElement.name][index] = Object.assign({}, state[formElement.name][index], { val: value })
       } else {
         // The formElement is not in the state, so we need to add it
-        state[formElement.name] = [value]
+        state[formElement.name] = [{val: value}]
       }
 
       // Now send this whole updated value up a level so it can be updated their

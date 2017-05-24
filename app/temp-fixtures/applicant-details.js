@@ -35,7 +35,7 @@ export default {
               'name': 'applicantTypeApplicant',
               'label': 'Type',
               'type': 'radio',
-              'default': { val: [1] },
+              'default': { val: 1 },
               'options': [
                 { 'value': 1, 'label': 'Individual' },
                 { 'value': 2, 'label': 'Company' },
@@ -128,7 +128,7 @@ export default {
               'name': 'applicantTypeAgent',
               'label': 'Type',
               'type': 'radio',
-              'default': { val: [1] },
+              'default': { val: 1 },
               'options': [
                 { 'value': 1, 'label': 'Individual' },
                 { 'value': 2, 'label': 'Company' },

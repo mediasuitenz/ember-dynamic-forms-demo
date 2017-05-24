@@ -12,8 +12,9 @@ export default Ember.Component.extend(DynamicElement, {
       return set(this, 'values', [])
     }
 
-    set(this, 'values', get(this, `state.${get(this, 'formElement.name')}`).map(val => {
-      return get(this, 'formElement.options').find(option => option.value === val)
+    const componentState = get(this, `state.${get(this, 'formElement.name')}`) || [];
+    set(this, 'values', componentState.map(valueItem => {
+      return get(this, 'formElement.options').find(option => option.value === valueItem.val)
     }))
   },
 

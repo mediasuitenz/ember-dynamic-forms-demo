@@ -50,12 +50,13 @@ test('it can show a conditional formElement', function(assert) {
 
 test('it can repeat a repeatable formElement', function(assert) {
   this.set('form', nestedComponents)
-  this.render(hbs`{{dynamic-form form=form}}`);
+  this.render(hbs`{{dynamic-form form=form}}`)
   assert.equal(this.$('span:contains("Which area is affected?")').length, 1)
   this.$('button:eq(1)').click()
   assert.equal(this.$('span:contains("Which area is affected?")').length, 2)
 });
 
+// todo: see if we can get this test working in the future
 skip('Loads default values from a function', function(assert) {
   this.set('form', applicantDetails)
   this.render(hbs`{{dynamic-form form=form}}`);
@@ -64,7 +65,16 @@ skip('Loads default values from a function', function(assert) {
   // panels.
   wait().then(() => assert.equal(this.$('label:contains("First name(s)")').next('input').text(), 'Brian', 'Default text loaded from function'))
 
-  // todo: see if we can get this test working in the future
+})
+
+test('Ids are retained if the value is updated', function(assert) {
+  this.set('form', basicForm)
+  this.render(hbs`{{dynamic-form form=form}}`)
+  this.$('select:eq(0)').val('1').change()
+  wait().then(() => {
+    assert.equal(basicForm.state.targetOrg[0].val, 1)
+    assert.equal(basicForm.state.targetOrg[0].id, 1234)
+  })
 })
 
 skip('it removes any not needed values on save')

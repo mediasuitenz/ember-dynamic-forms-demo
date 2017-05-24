@@ -12,7 +12,7 @@ export default Ember.Component.extend(DynamicElement, {
       return set(this, 'values', [])
     }
 
-    set(this, 'values', get(this, `state.${get(this, 'formElement.name')}`))
+    set(this, 'values', get(this, `state.${get(this, 'formElement.name')}`).map(valueItem => valueItem.val))
   },
 
   actions: {
