@@ -10,7 +10,7 @@
         update=(action 'updateState' index)
       }}
       {{#if showDeleteButton}}
-        <button {{action 'delete' index}}>Delete</button>
+        <button {{action 'delete' index}} class="delete">Delete</button>
       {{/if}}
     {{/unless}}
   {{/each}}

@@ -27,7 +27,7 @@ test('it renders a basic form with a basic information formElement', function(as
 
 test('it renders a basic form with single level formElements', function(assert) {
   this.set('form', basicForm)
-  this.render(hbs`{{dynamic-form form=form}}`);
+  this.render(hbs`{{dynamic-form form=form}}`)
   assert.ok(this.$().html().includes('Which area is affected'));
 });
 
