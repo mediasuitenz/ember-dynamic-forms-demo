@@ -1,13 +1,13 @@
 import Ember from 'ember';
-const {inject, get, RSVP} = Ember
+const {inject, get, RSVP, copy} = Ember
 import reduce from 'npm:async/reduce'
+import eachOf from 'npm:async/eachOf'
 
 export default Ember.Service.extend({
-  user: inject.service(),
-  populateFunctions: inject.service(),
+  defaultFunctions: inject.service(),
 
   buildState (initialState, formElements, formElementCount) {
-    initialState = initialState || {}
+    initialState = copy(initialState) || {}
     formElementCount = formElementCount || 1
     return new RSVP.Promise((resolve) => {
       // Loop through each formElement and make sure we have state
@@ -18,48 +18,66 @@ export default Ember.Service.extend({
         if (!formElement.formElements) {
           // Populate by a population function if it exists, and the state is not already set
           if (get(formElement, 'default.func') && !initialState[formElement.name]) {
-            // Need to determine if this is the correct time to call the default function
-            const runOnFirstOnlyAndIsFirst = formElement.default.execute === 'first-only' && formElementCount === 1
-            const runAlways = formElement.default.execute == null || formElement.default.execute === 'all'
-
-            if (runOnFirstOnlyAndIsFirst || runAlways) {
-              get(this, 'populateFunctions')[get(formElement, 'default.func')](formElement.default.arguments)
-                .then(value => {
-                  tempState[formElement.name] = [{val: value}]
-                  callback(null, tempState)
-                })
-            } else {
-              // todo: oh my, tidy this code up
-              tempState[formElement.name] = initialState[formElement.name] || [{val: get(formElement, 'default.val')}] || [{ val: null }]
-              callback(null, tempState)
-            }
+            this.processFromDefaultFunction(initialState, formElement, formElementCount, tempState, callback)
           } else {
-            tempState[formElement.name] = initialState[formElement.name] || [{val: get(formElement, 'default.val')}] || [{ val: null }]
+            tempState[formElement.name] = this.getState(initialState, formElement)
             callback(null, tempState)
           }
         } else {
-          // Holy Recursing, Batman!
-          this.buildState(initialState[formElement.name], formElement.formElements, formElementCount)
-            .then(state => {
-              tempState[formElement.name] = [{val: state}]
-              callback(null, tempState)
-            })
+          this.processSection(initialState, formElement, formElementCount, tempState, callback)
         }
-        return tempState
       }, function (err, result) {
-        resolve(result)
+        resolve(Object.assign({}, initialState, result))
       })
     })
   },
 
-  // Add populating functions here
-  // Note: all populating functions must return a common promise interface
-
-  getFirstName () {
-    return RSVP.Promise.resolve(get(this, 'user').getUserDetails().firstName)
+  getState(initialState, formElement) {
+    return initialState[formElement.name] || [{val: get(formElement, 'default.val')}] || [{ val: null }]
   },
 
-  getLastName () {
-    return RSVP.Promise.resolve(get(this, 'user').getUserDetails().surname)
+  processFromDefaultFunction(initialState, formElement, formElementCount, tempState, callback) {
+    // Need to determine if this is the correct time to call the default function
+    const runOnFirstOnlyAndIsFirst = formElement.default.execute === 'first-only' && formElementCount === 1
+    const runAlways = formElement.default.execute == null || formElement.default.execute === 'all'
+
+    if (runOnFirstOnlyAndIsFirst || runAlways) {
+      get(this, 'defaultFunctions')[get(formElement, 'default.func')](formElement.default.arguments)
+        .then(value => {
+          tempState[formElement.name] = [{val: value}]
+          callback(null, tempState)
+        })
+    } else {
+      // todo: consider tidying this code as is duplicated above
+      tempState[formElement.name] = this.getState(initialState, formElement)
+      callback(null, tempState)
+    }
+  },
+
+  processSection(initialState, formElement, formElementCount, tempState, callback) {
+    // Holy Recursing, Batman!
+    // This is complicated.  The initialState[formElement] returns an array of objects, or nothing
+    // [{val: dfdf, errors:..dsfsd, hidden:sdfsdf}, {val:dfsdfs}]
+    // Therefore, need to loop this properly as well to process each 'state' from the array
+
+    if (!initialState[formElement.name]) {
+      // There is no initial state, there just build it from null
+      return this.buildState(null, formElement.formElements, formElementCount)
+        .then(state => {
+          tempState[formElement.name] = [{val: state}]
+          callback(null, tempState)
+        })
+    }
+    // Else, we have existing state, that we want to append to, potentially
+    tempState[formElement.name] = [];
+    eachOf(initialState[formElement.name], (subState, index, next) => {
+      this.buildState(subState.val, formElement.formElements, formElementCount)
+        .then(state => {
+          tempState[formElement.name][index] = Object.assign({}, subState, {val: state})
+          next()
+        })
+    }, () => {
+      callback(null, tempState)
+    })
   }
 });

@@ -6,8 +6,6 @@ moduleForComponent('dynamic-form', 'Integration | Component | Dynamic Form Delet
   integration: true
 });
 
-
-
 const deleteForm = {
   formElements: [{
     type: 'text',

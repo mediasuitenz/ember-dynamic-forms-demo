@@ -2,20 +2,14 @@
   {{#if formElement.help}}
     <div>{{formElement.help}}</div>
   {{/if}}
-  {{#each values as |value index|}}
-    {{#unless (or value.hidden value.deleted)}}
-      {{mediasuite-radio-buttons
-        value=value
-        inlineGroupLabel=formElement.label
-        options=formElement.options
-        optionValuePath='value'
-        optionLabelPath='label'
-        update=(action 'updateState' index)
-      }}
-      {{#if showDeleteButton}}
-        <button {{action 'delete' index}} class="delete">Delete</button>
-      {{/if}}
-    {{/unless}}
+  {{#each formElementState as |value index|}}
+    {{dynamic-form/radio/radio-field
+      formElement=formElement
+      state=state
+      index=index
+      updateState=updateState
+      delete=delete
+    }}
   {{/each}}
   {{#if formElement.repeatable}}
     <button {{action 'add'}}>Add</button>

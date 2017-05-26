@@ -1,6 +1,12 @@
-{{mediasuite-text-area
-  value=value
-  type='text'
-  label=formElement.label
-  update=(action 'updateState' index)
-}}
+{{#unless isDeletedOrHidden}}
+  {{mediasuite-text-area
+    value=stateValue
+    type='text'
+    label=formElement.label
+    update=(action 'updateState' index)
+    errors=(get-errors state formElement index)
+  }}
+  {{#if showDeleteButton}}
+    <button {{action delete formElement index}} class="delete">Delete</button>
+  {{/if}}
+{{/unless}}

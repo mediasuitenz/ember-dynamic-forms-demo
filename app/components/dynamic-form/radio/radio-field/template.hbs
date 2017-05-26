@@ -1,9 +1,11 @@
 {{#unless isDeletedOrHidden}}
-  {{mediasuite-input
-    value=stateValue
-    type='text'
-    label=formElement.label
-    update=(action 'updateState' index)
+  {{mediasuite-radio-buttons
+    value=value
+    inlineGroupLabel=formElement.label
+    options=formElement.options
+    optionValuePath='value'
+    optionLabelPath='label'
+    update=(action 'updateState')
     errors=(get-errors state formElement index)
   }}
   {{#if showDeleteButton}}

@@ -1,10 +1,12 @@
 {{#unless isDeletedOrHidden}}
-  {{mediasuite-input
-    value=stateValue
-    type='text'
+  {{mediasuite-select-box
+    value=value
     label=formElement.label
-    update=(action 'updateState' index)
+    options=formElement.options
+    optionValuePath='value'
+    optionLabelPath='label'
     errors=(get-errors state formElement index)
+    update=(action 'updateState')
   }}
   {{#if showDeleteButton}}
     <button {{action delete formElement index}} class="delete">Delete</button>
