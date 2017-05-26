@@ -3,16 +3,13 @@
     <div>{{formElement.help}}</div>
   {{/if}}
   {{#each values as |value index|}}
-    {{#unless (or value.hidden value.deleted)}}
-      {{mediasuite-check-box
-        checked=value
-        label=formElement.label
-        update=(action 'updateState' index)
-      }}
-      {{#if showDeleteButton}}
-        <button {{action 'delete' index}} class="delete">Delete</button>
-      {{/if}}
-    {{/unless}}
+    {{dynamic-form/checkbox/checkbox-field
+      formElement=formElement
+      state=state
+      index=index
+      updateState=updateState
+      delete=delete
+    }}
   {{/each}}
   {{#if formElement.repeatable}}
     <button {{action 'add'}}>Add</button>

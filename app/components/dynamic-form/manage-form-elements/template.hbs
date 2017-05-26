@@ -8,3 +8,7 @@
       show=show
   }}
 {{/each}}
+
+{{#each errors as |error|}}
+  <span class="error">{{error.message}}</span>
+{{/each}}

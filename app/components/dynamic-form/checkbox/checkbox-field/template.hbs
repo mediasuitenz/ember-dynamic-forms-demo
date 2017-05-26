@@ -1,7 +1,6 @@
 {{#unless isDeletedOrHidden}}
-  {{mediasuite-input
-    value=stateValue
-    type='text'
+  {{mediasuite-check-box
+    checked=stateValue
     label=formElement.label
     update=(action 'updateState' index)
     errors=(get-errors state formElement index)

@@ -37,15 +37,6 @@ test('it can show a conditional formElement', function(assert) {
   assert.notOk(this.$().html().includes('Reference number'), '"Reference number" text is present when it should not be')
   this.$('.radio-button:eq(2) input').trigger('click').change()
   wait().then(() => assert.ok(this.$().html().includes('Reference number'), '"Reference number" text is not present when it should be'))
-
-  // wait().then(() => wait().then(() => assert.ok(this.$().html().includes('Reference number'), '"Reference number" text is not present when it should be')))
-  // Ember.run.later(this, ()=>{
-  //   // Introduce a delay to let the application catch up.
-  //   // Surprised this doesn't work with simply the 'wait()' but something must be happening outside the ember run loop
-  //   // - or spanning a couple of them
-  // }, 1000)
-  // wait().then(() => assert.ok(this.$().html().includes('Reference number'), '"Reference number" text is not present when it should be'))
-
 });
 
 test('it can repeat a repeatable formElement', function(assert) {

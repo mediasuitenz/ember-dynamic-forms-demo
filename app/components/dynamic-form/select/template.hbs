@@ -3,19 +3,13 @@
     <div>{{formElement.help}}</div>
   {{/if}}
   {{#each values as |value index|}}
-    {{#unless (or value.hidden value.deleted)}}
-      {{mediasuite-select-box
-        value=value
-        label=formElement.label
-        options=formElement.options
-        optionValuePath='value'
-        optionLabelPath='label'
-        update=(action 'updateState' index)
-      }}
-      {{#if showDeleteButton}}
-        <button {{action 'delete' index}} class="delete">Delete</button>
-      {{/if}}
-    {{/unless}}
+    {{dynamic-form/select/select-field
+      formElement=formElement
+      state=state
+      index=index
+      updateState=updateState
+      delete=delete
+    }}
   {{/each}}
   {{#if formElement.repeatable}}
     <button {{action 'add'}}>Add</button>

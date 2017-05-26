@@ -1,7 +1,8 @@
-{{#unless (or value.hidden value.deleted)}}
+{{#unless isDeletedOrHidden}}
   {{dynamic-form/manage-form-elements
     formElements=formElement.formElements
-    state=subState
+    state=stateValue
+    errors=(get-errors state formElement index)
     updateState=(action updateState)
     delete=(action delete)
   }}

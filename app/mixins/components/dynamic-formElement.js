@@ -1,6 +1,5 @@
 import Ember from 'ember'
-
-const { computed, get, set, observer, copy } = Ember
+const { computed, get, set, observer } = Ember
 
 export default Ember.Mixin.create({
   // Some useful values
@@ -14,21 +13,17 @@ export default Ember.Mixin.create({
   totalNumber: computed.alias('formElementState.length'),
   totalNumberDisplayed: computed.alias('stateToDisplay.length'),
   showDeleteButton: computed.gt('totalNumberDisplayed', 1),
+  stateValue: computed('formElementState','index', function () {
+    return get(this, 'formElementState').objectAt(get(this, 'index')).val
+  }),
 
-  init () {
-    this._super()
-    this.conditionalSetValues()
-  },
+  isDeletedOrHidden: computed('formElementState', 'index', function () {
+    const index = get(this, 'index')
+    if (index == null) return false
 
-  conditionalSetValues () {
-    const formElementName = get(this, 'formElement.name')
-    let stateItem = copy(get(this, `state.${formElementName}`)) || []
-    stateItem = stateItem.filter(item => !item.hidden && !item.deleted)
-
-    if (get(this, 'formElementState.length') !== get(this, 'values.length')) {
-      set(this, 'values', stateItem)
-    }
-  },
+    const state = get(this, 'formElementState').objectAt(get(this, 'index'))
+    return (state.hidden || state.deleted)
+  }),
 
   display: computed('state', 'formElement.{name,conditions}', function () {
     const conditions = get(this, 'formElement.conditions')
@@ -62,18 +57,23 @@ export default Ember.Mixin.create({
     this.conditionalSetValues()
   }),
 
+  init () {
+    this._super()
+    this.conditionalSetValues()
+  },
+
+  conditionalSetValues () {
+    if (get(this, 'formElementState.length') !== get(this, 'values.length')) {
+      set(this, 'values', get(this, 'formElementState'))
+    }
+  },
+
   actions: {
-    updateState (index, selectedItem) {
-      // Need a custom updateState to pick the value off the selectedItem
-      get(this, 'updateState')(get(this, 'formElement'), selectedItem.value, index)
+    updateState (index, value) {
+      get(this, 'updateState')(get(this, 'formElement'), value, index)
     },
     add () {
-      const formElementName = get(this, 'formElement.name')
-      const values = get(this, `state.${formElementName}`) || []
-      get(this, 'updateState')(get(this, 'formElement'), null, values.length)
-    },
-    delete (index) {
-      get(this, 'delete')(get(this, 'formElement'), index)
+      get(this, 'updateState')(get(this, 'formElement'), null, get(this, 'totalNumber'))
     }
   }
 })
